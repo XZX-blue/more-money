@@ -6,4 +6,3 @@ type RecordItem ={
     createdAt?: Date
 }
 
-export default RecordItem;
