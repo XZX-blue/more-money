@@ -18,15 +18,16 @@ import FormItem from "@/components/money/FromItem.vue";
 import Tags from "@/components/money/Tags.vue";
 import Vue from "vue";
 import {Component} from "vue-property-decorator";
+import store from "@/store/index2";
 
 @Component({
   components: {Tags,  FormItem, Types, NumberPad},
 })
 export default class Money extends Vue {
-  // @ts-ignore
-  tags = window.tagList;
-  // @ts-ignore
-  recordList = window.recordList;
+
+  tags = store.tagList;
+
+  recordList = store.recordList;
   // eslint-disable-next-line no-undef
   record: RecordItem = {
     tags: [],
@@ -45,8 +46,7 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    // @ts-ignore
-    window.createRecord(this.record)
+    store.createRecord(this.record)
   }
 
 

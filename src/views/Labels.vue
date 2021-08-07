@@ -13,19 +13,20 @@
 
 import Vue from "vue";
 import {Component} from "vue-property-decorator";
+import store from "@/store/index2";
 
 
 
 
 @Component
   export default class Labels extends Vue{
-  tags = window.tagList;
+  tags = store.tagList;
   createTag(){
     const name= window.prompt('请输入标签名');
     if(name ===''){
       window.alert('标签名不能为空')
-    }else {
-      window.createTag(name);
+    }else if(name){
+      store.createTag(name);
     }
   }
   }

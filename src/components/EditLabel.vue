@@ -23,15 +23,15 @@ import Vue from "vue";
 import {Component} from "vue-property-decorator";
 import FormItem from "@/components/money/FromItem.vue";
 import Button from "@/components/Button.vue";
+import store from  "@/store/index2"
 @Component({
   components: {Button, FormItem}
 })
-export default class EditLable extends Vue {
+export default class EditLabel extends Vue {
   tag?:{id:string , name: string} = undefined;
   created() {
     const id = this.$route.params.id;
-    // @ts-ignore
-     const tag = window.findTag(id);
+     const tag = store.findTag(id);
     if(tag){
       this.tag =tag;
     }else{
@@ -40,17 +40,17 @@ export default class EditLable extends Vue {
   }
   update(name:string){
     if(this.tag){
-      // @ts-ignore
-        window.updateTag(this.tag.id,name);
+        store.updateTag(this.tag.id,name);
     }
   }
   remove(){
-    // @ts-ignore
-   if(window.removeTag(this.tag.id)) {
-     this.$router.back()
-   }else{
-     window.alert('删除失败')
-   }
+    if(this.tag){
+      if(store.removeTag(this.tag.id)) {
+        this.$router.back()
+      }else{
+        window.alert('删除失败')
+      }
+    }
   }
   goBack(){
     this.$router.back()
