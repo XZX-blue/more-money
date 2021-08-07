@@ -23,7 +23,7 @@ import tagListModel from "@/models/tagListModel";
 
 
 // eslint-disable-next-line no-undef
-const recodList = recordListModel.fetch();
+const recordList = recordListModel.fetch();
 const tagList = tagListModel.fetch();
 
 @Component({
@@ -32,7 +32,7 @@ const tagList = tagListModel.fetch();
 export default class Money extends Vue {
   tags = tagList;
   // eslint-disable-next-line no-undef
-  recordList: RecordItem[] = recodList;
+  recordList: RecordItem[] = recordList;
   // eslint-disable-next-line no-undef
   record: RecordItem = {
     tags: [],
@@ -51,15 +51,12 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    // eslint-disable-next-line no-undef
-    const record2: RecordItem = recordListModel.clone(this.record);
-    record2.createdAt = new Date();
-    this.recordList.push(record2);
+    recordListModel.create(this.record)
   }
 
   @Watch("recordList")
   onRecordListChange() {
-    recordListModel.save(this.recordList);
+    recordListModel.save();
   }
 
 

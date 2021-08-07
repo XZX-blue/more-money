@@ -48,8 +48,9 @@ export default class EditLable extends Vue {
   remove(){
     console.log('1111');
     if(this.tag){
-      tagListModel.remove(this.tag.id)
-      this.goBack()
+      if(tagListModel.remove(this.tag.id)){
+        this.goBack();
+      }
     }
   }
   goBack(){

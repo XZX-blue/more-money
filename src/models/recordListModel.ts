@@ -1,14 +1,23 @@
+import clone from "@/lib/clone";
+
 const  localStoregeKeyName='recordList'
+
 const recordListModel={
+    data:[] as RecordItem[],
    fetch(){
-      return JSON.parse(window.localStorage.getItem(localStoregeKeyName) ||'[]') as RecordItem[];
+      this.data= JSON.parse(window.localStorage.getItem(localStoregeKeyName) ||'[]') as RecordItem[];
+        return this.data;
+      },
+    save(){
+        window.localStorage.setItem(localStoregeKeyName,
+            JSON.stringify(this.data))
     },
-    save(data:RecordItem[]){
-        window.localStorage.setItem(localStoregeKeyName,JSON.stringify(data))
-    },
-    clone(data: RecordItem[] | RecordItem) {
-        return JSON.parse(JSON.stringify(data));
-    },
+    create(record:RecordItem){
+        // eslint-disable-next-line no-undef
+        const record2: RecordItem = clone(record);
+        record2.createdAt = new Date();
+        this.data.push(record2);
+    }
 }
 
 export default recordListModel

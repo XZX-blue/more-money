@@ -16,7 +16,7 @@ import {Component} from "vue-property-decorator";
 
 
 
-tagListModel.fetch
+tagListModel.fetch();
 @Component
   export default class Labels extends Vue{
   tags = tagListModel.data
