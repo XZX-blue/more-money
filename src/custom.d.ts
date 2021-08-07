@@ -1,4 +1,4 @@
-type RecordItem ={
+type RecordItem = {
     tags: string[]
     notes: string
     type: string
@@ -6,22 +6,26 @@ type RecordItem ={
     createdAt?: Date
 }
 
-type Tag ={
-    id:string;
-    name:string
+type Tag = {
+    id: string;
+    name: string
 }
 
 type TageListModel = {
     data: Tag[],
     fetch: () => Tag[],
-    create: (name: string) => 'success' | 'duplicated' //success 文件名重复 duplicated 成功
-    update:(id:string,name:string)=> 'success' | 'duplicated' | 'not found'
+    create: (name: string) => "success" | "duplicated" //success 文件名重复 duplicated 成功
+    update: (id: string, name: string) => "success" | "duplicated" | "not found"
     save: () => void,
-    remove:(id:string)=> boolean
+    remove: (id: string) => boolean
 }
 
-interface window{
+interface window {
     tagList: Tag[];
+    createTag: (name: string) => void;
+    removeTag: (id:string) => boolean;
+    updateTag: (id:string,name:string) =>"success" | "duplicated" | "not found"
+    findTag:(id:string)=>Tag;
 }
 
 

@@ -19,7 +19,7 @@ import Tags from "@/components/money/Tags.vue";
 import Vue from "vue";
 import {Component, Watch} from "vue-property-decorator";
 import recordListModel from "@/models/recordListModel";
-import tagListModel from "@/models/tagListModel";
+
 
 
 // eslint-disable-next-line no-undef

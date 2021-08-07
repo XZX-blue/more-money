@@ -21,7 +21,6 @@
 <script lang="ts">
 import Vue from "vue";
 import {Component} from "vue-property-decorator";
-import tagListModel from "@/models/tagListModel";
 import FormItem from "@/components/money/FromItem.vue";
 import Button from "@/components/Button.vue";
 @Component({
@@ -31,9 +30,7 @@ export default class EditLable extends Vue {
   tag?:{id:string , name: string} = undefined;
   created() {
     const id = this.$route.params.id;
-    tagListModel.fetch();
-    const tags = tagListModel.data;
-    const tag = tags.filter(t => t.id ===id)[0]
+     const tag = window.findTag(id);
     if(tag){
       this.tag =tag;
     }else{
@@ -42,16 +39,15 @@ export default class EditLable extends Vue {
   }
   update(name:string){
     if(this.tag){
-      tagListModel.update(this.tag.id,name)
+        window.updateTag(this.tag.id,name);
     }
   }
   remove(){
-    console.log('1111');
-    if(this.tag){
-      if(tagListModel.remove(this.tag.id)){
-        this.goBack();
-      }
-    }
+   if(window.removeTag(this.tag.id)) {
+     this.$router.back()
+   }else{
+     window.alert('删除失败')
+   }
   }
   goBack(){
     this.$router.back()
