@@ -30,6 +30,7 @@ export default class EditLable extends Vue {
   tag?:{id:string , name: string} = undefined;
   created() {
     const id = this.$route.params.id;
+    // @ts-ignore
      const tag = window.findTag(id);
     if(tag){
       this.tag =tag;
@@ -39,10 +40,12 @@ export default class EditLable extends Vue {
   }
   update(name:string){
     if(this.tag){
+      // @ts-ignore
         window.updateTag(this.tag.id,name);
     }
   }
   remove(){
+    // @ts-ignore
    if(window.removeTag(this.tag.id)) {
      this.$router.back()
    }else{
