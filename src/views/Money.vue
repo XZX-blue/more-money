@@ -6,7 +6,7 @@
     <div class="notes">
       <FormItem placeholder="在这里输入备注" field-name="备注" @update:value="onupdateNotes"></FormItem>
     </div>
-    <Tags ></Tags>
+    <Tags :value.sync =record.tags ></Tags>
   </Layout>
 </template>
 
@@ -46,19 +46,14 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-   this.$store.commit("saveRecords")
+   this.$store.commit("createRecord",this.record)
+    this.$router.back()
   }
 
 
 
-  // onupdateType(value:string){
-  //   this.record.type=value;
-  //
-  // }
-  // onupdateAmount(value:string){
-  //   this.record.amount=parseFloat(value);
-  //
-  // }
+
+
 }
 
 </script>
