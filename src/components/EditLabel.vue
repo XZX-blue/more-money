@@ -13,6 +13,7 @@
     </div>
     <div class="button-wrapper">
       <Button @click="remove">删除标签</Button>
+
     </div>
 
   </layout>
@@ -49,7 +50,8 @@ export default class EditLabel extends Vue {
   remove() {
     if (this.currentTag) {
       this.$store.commit("removeTag",this.currentTag.id)
-      }
+      window.alert('删除成功')
+    }
     }
     goBack(){
       this.$router.back()
