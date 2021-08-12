@@ -5,8 +5,8 @@
     </div>
     <ul class="current">
       <li v-for="tag in tagList" :key="tag.id"
-          @click="toggle(tag)"
-          :class="selectedTags.indexOf(tag)>=0 && 'selected'">{{ tag.name }}
+          @click="toggle(tag.name)"
+          :class="selectedTags.indexOf(tag.name)>=0 && 'selected'">{{ tag.name }}
       </li>
     </ul>
   </div>
@@ -40,6 +40,7 @@ export default class Tags extends Vue {
     } else {
       this.selectedTags.push(tag);
     }
+
     console.log(this.selectedTags);
     this.$emit("update:value", this.selectedTags);
   }
