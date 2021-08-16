@@ -1,4 +1,6 @@
 type RootState = {
+    createRecordError: Error | null;
+    createTagError: number;
     recordList: RecordItem[],
     tagList: Tag[],
     currentTag?: Tag
@@ -26,13 +28,15 @@ type TageListModel = {
 }
 
 interface Window {
-    store:{ tagList: Tag[];
+    store: {
+        tagList: Tag[];
         createTag: (name: string) => void;
-        removeTag: (id:string) => boolean;
-        updateTag: (id:string,name:string) =>"success" | "duplicated" | "not found"
-        findTag:(id:string)=>Tag;
+        removeTag: (id: string) => boolean;
+        updateTag: (id: string, name: string) => "success" | "duplicated" | "not found"
+        findTag: (id: string) => Tag;
         recordList: RecordItem[];
-        createRecord:(record:RecordItem)=>void}
+        createRecord: (record: RecordItem) => void
+    }
 
 }
 

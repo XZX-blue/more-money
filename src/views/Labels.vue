@@ -4,7 +4,7 @@
     <router-link class="tag" v-for="tag in tags" :key="tag.id" :to="`/labels/edit/${tag.id}`"><span>{{tag.name}}</span><Icon name="right"></Icon> </router-link>
   </div>
     <div class="createTag-wrapper" >
-      <Button class="createTag" @click="createTag">新建标签</Button>
+      <Button class="createTag" @click="create">新建标签</Button>
     </div>
   </Layout>
 </template>
@@ -24,15 +24,18 @@ import {Component} from "vue-property-decorator";
   beforeCreate(){
     this.$store.commit("fetchTags")
   }
-  createTag(){
+  create() {
     const name = window.prompt("请输入标签名");
     if (!name) {
       window.alert("标签名不能为空");
       return;
-    } else {
-      this.$store.commit("createTag",name)
+    }
+    this.$store.commit('createTag',name)
+    if (this.$store.state.createTagError===1){
+      window.alert('创建成功')
     }
   }
+
   }
 </script>
 

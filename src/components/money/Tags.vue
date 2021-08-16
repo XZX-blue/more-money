@@ -5,8 +5,8 @@
     </div>
     <ul class="current">
       <li v-for="tag in tagList" :key="tag.id"
-          @click="toggle(tag.name)"
-          :class="selectedTags.indexOf(tag.name)>=0 && 'selected'">{{ tag.name }}
+          @click="toggle(tag)"
+          :class="selectedTags.indexOf(tag)>=0 && 'selected'">{{ tag.name }}
       </li>
     </ul>
   </div>
@@ -40,7 +40,6 @@ export default class Tags extends Vue {
     } else {
       this.selectedTags.push(tag);
     }
-
     console.log(this.selectedTags);
     this.$emit("update:value", this.selectedTags);
   }
@@ -50,10 +49,12 @@ export default class Tags extends Vue {
     if (!name) {
       window.alert("标签名不能为空");
       return;
-    } else {
-     this.$store.commit("createTag",name)
     }
-  }
+    this.$store.commit('createTag',name)
+    if (this.$store.state.createTagError===1){
+      window.alert('创建成功')
+    }
+      }
 }
 </script>
 
