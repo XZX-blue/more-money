@@ -2,7 +2,9 @@
   <div class="x">
     <Layout>
       <Tabs class-prefix="type" :data-source="typeList" :value.sync="type "></Tabs>
-           <div>
+      <div class="chart-wrapper" ref="chartWrapper">
+        <Chart class="chart" :options="x"></Chart>
+      </div>
         <ol v-if="groupedList.length>0">
           <li v-for="(group,index) in groupedList" :key="index">
 
@@ -19,7 +21,7 @@
              <div v-else class="no-result">
                目前没有相关记录
              </div>
-      </div>
+
     </Layout>
   </div>
 </template>
@@ -46,14 +48,58 @@ import Tabs from "@/components/Tabs.vue";
 import recordTypeList from "@/constants/recordTypeList";
 import dayjs from "dayjs";
 import clone from "@/lib/clone";
+import Chart from "@/components/Chart"
 
 @Component({
-  components: {Tabs,}
+  components: {Tabs,Chart}
 })
 export default class Statistics extends Vue {
   get recordList() {
     // eslint-disable-next-line no-undef
     return (this.$store.state as RootState).recordList;
+  }
+
+  get x(){
+    return {
+      tooltip:{
+        show: true,
+        triggerOn : 'click',
+        formatter:'{c}',
+        position:'top',
+      },
+      grid:{
+        left:0,
+        right:0
+      },
+      xAxis: {
+        type: 'category',
+        data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+          '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+          '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',],
+        axisTick: {
+          alignWithLabel: true ,
+        },
+
+      },
+      yAxis: {
+        type: 'value',
+        show: false
+      },
+      series: [{
+        symbol:'circle',
+        data: [820, 932, 901, 934, 1290, 1330, 1320,820, 932, 901,
+          820, 932, 901, 934, 1290, 1330, 1320,820, 932, 901,
+          820, 932, 901, 934, 1290, 1330, 1320,820, 932, 901],
+        type: 'line',
+        symbolSize: 10,
+        itemStyle:{
+          color: '#333'
+        },
+        lineStyle:{
+          color: "#666"
+        }
+      }]
+    };
   }
 
   get groupedList() {
@@ -108,6 +154,10 @@ export default class Statistics extends Vue {
     this.$store.commit("fetchRecords");
   }
 
+  mounted(){
+    (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999
+  }
+
   type = "-";
    typeList = recordTypeList;
 }
@@ -140,6 +190,12 @@ export default class Statistics extends Vue {
 .no-result{
   padding: 16px;
   text-align: center;
+}
+.chart{
+  width: 400%;
+  &-wrapper{
+    overflow: auto;
+  }
 }
 
 </style>
