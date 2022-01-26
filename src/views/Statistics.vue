@@ -3,7 +3,7 @@
     <Layout>
       <Tabs class-prefix="type" :data-source="typeList" :value.sync="type "></Tabs>
       <div class="chart-wrapper" ref="chartWrapper">
-        <Chart class="chart" :options="x"></Chart>
+        <Chart class="chart" :options="chartOptions"></Chart>
       </div>
         <ol v-if="groupedList.length>0">
           <li v-for="(group,index) in groupedList" :key="index">
@@ -48,7 +48,9 @@ import Tabs from "@/components/Tabs.vue";
 import recordTypeList from "@/constants/recordTypeList";
 import dayjs from "dayjs";
 import clone from "@/lib/clone";
-import Chart from "@/components/Chart"
+import Chart from "@/components/Chart.vue"
+import _ from 'lodash'
+import day from 'dayjs'
 
 @Component({
   components: {Tabs,Chart}
@@ -58,8 +60,29 @@ export default class Statistics extends Vue {
     // eslint-disable-next-line no-undef
     return (this.$store.state as RootState).recordList;
   }
+  get keyValueList (){
+    const today = new Date();
+    const array =[]
+    for(let i=0;i<=29; i++){
+      const dateString = day(today).subtract(i ,'day').format('YYYY-MM-DD')
+      const found = _.find(this.groupedList,{title:dateString})
+      array.push({key:dateString,value: found ? found.total:0})
+    }
+    array.sort((a,b)=>{
+      if(a.key>b.key){
+        return 1;
+      }else if(a.key===b.key){
+        return 0;
+      }else{
+        return -1;
+      }
+    })
+    return array;
+  }
 
-  get x(){
+  get chartOptions(){
+    const keys = this.keyValueList.map(item=>item.key);
+    const values= this.keyValueList.map(item=>item.value);
     return {
       tooltip:{
         show: true,
@@ -73,13 +96,15 @@ export default class Statistics extends Vue {
       },
       xAxis: {
         type: 'category',
-        data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-          '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
-          '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',],
+        data: keys,
         axisTick: {
           alignWithLabel: true ,
         },
-
+        axisLabel:{
+          formatter:function (value:string) {
+            return value.substr(5);
+          }
+        }
       },
       yAxis: {
         type: 'value',
@@ -87,17 +112,14 @@ export default class Statistics extends Vue {
       },
       series: [{
         symbol:'circle',
-        data: [820, 932, 901, 934, 1290, 1330, 1320,820, 932, 901,
-          820, 932, 901, 934, 1290, 1330, 1320,820, 932, 901,
-          820, 932, 901, 934, 1290, 1330, 1320,820, 932, 901],
+        data: values,
         type: 'line',
         symbolSize: 10,
         itemStyle:{
-          color: '#333'
+          color: '#333',
+          borderColor: '#666',
+          borderWidth:1
         },
-        lineStyle:{
-          color: "#666"
-        }
       }]
     };
   }
@@ -155,8 +177,10 @@ export default class Statistics extends Vue {
   }
 
   mounted(){
-    (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999
+    const div = (this.$refs.chartWrapper as HTMLDivElement);
+    div.scrollLeft = div.scrollWidth
   }
+
 
   type = "-";
    typeList = recordTypeList;

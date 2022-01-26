@@ -1,6 +1,5 @@
 <template>
   <Layout class-prefix="layout">
-    {{record}}
     <NumberPad :value.sync="record.amount" @submit="saveRecord"></NumberPad>
     <Tabs :data-source="recordTypeList" :value.sync="record.type"></Tabs>
     <div class="notes">
@@ -29,7 +28,8 @@ import Vue from "vue";
 import {Component} from "vue-property-decorator";
 import Tabs from "@/components/Tabs.vue";
 import recordTypeList from "@/constants/recordTypeList";
-
+import dayjs from "dayjs";
+import _ from 'lodash';
 
 @Component({
   components: {Tabs, Tags,  FormItem,  NumberPad},
@@ -48,10 +48,11 @@ export default class Money extends Vue {
     notes: "",
     type: "-",
     amount: 0,
-    createdAt: new Date().toISOString(),
+    createdAt: dayjs(new Date()).format('YYYY-MM-DD'),
   };
   created(){
     this.$store.commit("fetchRecords")
+    console.log(this.recordList[0]);
   }
   // onupdateNotes(value: string) {
   //   this.record.notes = value;

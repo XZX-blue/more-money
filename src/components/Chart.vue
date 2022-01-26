@@ -3,16 +3,22 @@
 </template>
 
 <script lang="ts">
-import {Component, Prop, Vue} from "vue-property-decorator";
-import * as echarts from 'echarts'
+import {Component, Prop, Vue, Watch} from "vue-property-decorator";
+import * as echarts from 'echarts';
+
 
 @Component
 export default class Chart extends Vue{
   @Prop() options:any;
+  chart?:any;
   mounted(){
-  const chart= echarts.init(this.$refs.wrapper);
-    chart.setOption(this.options);
+    this.chart= echarts.init(this.$refs.wrapper as HTMLDivElement);
+    this.chart.setOption(this.options);
     }
+  @Watch('options')
+  onOptionsChange(newValue:any){
+    this.chart!.setOption(newValue)
+   }
   }
 </script>
 

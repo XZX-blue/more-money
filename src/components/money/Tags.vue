@@ -34,14 +34,14 @@ export default class Tags extends Vue {
   }
 
   toggle(tag: string) {
+   // if(this.selectedTags.length>=1){ return window.alert('一次只能选择一个标签')}
     const index = this.selectedTags.indexOf(tag);
     if (index >= 0) {
       this.selectedTags.splice(index, 1);
     } else {
       this.selectedTags.push(tag);
     }
-    console.log(this.selectedTags);
-    this.$emit("update:value", this.selectedTags);
+       this.$emit("update:value", this.selectedTags);
   }
 
   create() {
